@@ -6,7 +6,7 @@ class Algorithms:
     def __init__(self):
         pass
     
-    def ray_crossing(q:QPointF,pol:QPolygonF):
+    def ray_crossing(self, q:QPointF, pol:QPolygonF):
         # analyze point and polygon position using ray crossing algorithm
         k = 0 #amount of intersection points
         n = len(pol)

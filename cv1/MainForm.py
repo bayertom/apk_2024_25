@@ -7,7 +7,8 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-
+from draw import Draw
+from algorithms import *
 
 class Ui_MainForm(object):
     def setupUi(self, MainForm):
@@ -101,6 +102,10 @@ class Ui_MainForm(object):
         self.toolBar.addAction(self.actionClear_all)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.actionExit)
+        
+        #Connect components and slots
+        self.actionRay_crossing.triggered.connect(self.analyzeClick)
+        self.actionPoint_Polygon.triggered.connect(self.switchClick)
 
         self.retranslateUi(MainForm)
         QtCore.QMetaObject.connectSlotsByName(MainForm)
@@ -125,9 +130,41 @@ class Ui_MainForm(object):
         self.actionWinding_number.setToolTip(_translate("MainForm", "Winding number algorithm"))
         self.actionRay_crossing.setText(_translate("MainForm", "Ray crossing"))
         self.actionRay_crossing.setToolTip(_translate("MainForm", "Ray crossing algorithm"))
-from draw import Draw
 
-
+    def analyzeClick(self):
+        #Analyze point and polygon position
+        
+        #Get input data
+        q = ui.Canvas.getQ()
+        pol = ui.Canvas.getPol()
+        
+        #Analyze position
+        a = Algorithms()
+        result = a.ray_crossing(q, pol)
+        
+        #Static method
+        #result = Algorithms.ray_crossing(q, pol)
+        
+        #Show results
+        dialog = QtWidgets.QMessageBox()
+        dialog.setWindowTitle('Result of analysis')
+        
+        #Point q inside pol
+        if result == 1:
+            dialog.setText('Inside')
+        
+        #Point q outside pol
+        else:
+            dialog.setText('Outside')
+            
+        #Show dialog
+        dialog.exec()
+  
+        
+    def switchClick(self):
+        #Switch source, point or polygon
+        ui.Canvas.switchInput()
+        
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
