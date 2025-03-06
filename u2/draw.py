@@ -11,7 +11,7 @@ class Draw(QWidget):
         
         self.q = QPointF(-100, -100)
         self.pol = QPolygonF()
-        self.add_vertex = True
+        self.add_vertex = False
         
         
     def mousePressEvent(self, e: QMouseEvent):

@@ -7,7 +7,7 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-
+from draw import Draw
 
 class Ui_MainForm(object):
     def setupUi(self, MainForm):
@@ -39,32 +39,32 @@ class Ui_MainForm(object):
         MainForm.addToolBar(QtCore.Qt.ToolBarArea.TopToolBarArea, self.toolBar)
         self.actionOpen = QtGui.QAction(parent=MainForm)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/images/images/icons/open_file.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("images/icons/open_file.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.actionOpen.setIcon(icon)
         self.actionOpen.setObjectName("actionOpen")
         self.actionExit = QtGui.QAction(parent=MainForm)
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/images/images/icons/exit.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon1.addPixmap(QtGui.QPixmap("images/icons/exit.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.actionExit.setIcon(icon1)
         self.actionExit.setObjectName("actionExit")
         self.actionMBR = QtGui.QAction(parent=MainForm)
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/images/images/icons/maer.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon2.addPixmap(QtGui.QPixmap("images/icons/maer.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.actionMBR.setIcon(icon2)
         self.actionMBR.setObjectName("actionMBR")
         self.actionPCA = QtGui.QAction(parent=MainForm)
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/images/images/icons/pca.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon3.addPixmap(QtGui.QPixmap("images/icons/pca.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.actionPCA.setIcon(icon3)
         self.actionPCA.setObjectName("actionPCA")
         self.actionClear_results = QtGui.QAction(parent=MainForm)
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(":/images/images/icons/clear.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon4.addPixmap(QtGui.QPixmap("images/icons/clear.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.actionClear_results.setIcon(icon4)
         self.actionClear_results.setObjectName("actionClear_results")
         self.actionClear_all = QtGui.QAction(parent=MainForm)
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap(":/images/images/icons/clear_er.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon5.addPixmap(QtGui.QPixmap("images/icons/clear_er.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.actionClear_all.setIcon(icon5)
         self.actionClear_all.setObjectName("actionClear_all")
         self.menuFile.addAction(self.actionOpen)
@@ -108,7 +108,7 @@ class Ui_MainForm(object):
         self.actionClear_results.setText(_translate("MainForm", "Clear results"))
         self.actionClear_all.setText(_translate("MainForm", "Clear all"))
         self.actionClear_all.setToolTip(_translate("MainForm", "Clear all data"))
-from draw import Draw
+
 
 
 if __name__ == "__main__":
