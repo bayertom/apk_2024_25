@@ -15,6 +15,11 @@ class Ui_MainForm(object):
         MainForm.resize(1755, 1327)
         self.centralwidget = QtWidgets.QWidget(parent=MainForm)
         self.centralwidget.setObjectName("centralwidget")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.Canvas = Draw(parent=self.centralwidget)
+        self.Canvas.setObjectName("Canvas")
+        self.horizontalLayout.addWidget(self.Canvas)
         MainForm.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=MainForm)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1755, 22))
@@ -87,7 +92,7 @@ class Ui_MainForm(object):
 
     def retranslateUi(self, MainForm):
         _translate = QtCore.QCoreApplication.translate
-        MainForm.setWindowTitle(_translate("MainForm", "MainWindow"))
+        MainForm.setWindowTitle(_translate("MainForm", "Building simplify"))
         self.menuFile.setTitle(_translate("MainForm", "File"))
         self.menuSimplify.setTitle(_translate("MainForm", "Simplify"))
         self.menuView.setTitle(_translate("MainForm", "View"))
@@ -103,6 +108,7 @@ class Ui_MainForm(object):
         self.actionClear_results.setText(_translate("MainForm", "Clear results"))
         self.actionClear_all.setText(_translate("MainForm", "Clear all"))
         self.actionClear_all.setToolTip(_translate("MainForm", "Clear all data"))
+from draw import Draw
 
 
 if __name__ == "__main__":
