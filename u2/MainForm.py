@@ -8,6 +8,7 @@
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from draw import Draw
+from algorithms import *
 
 class Ui_MainForm(object):
     def setupUi(self, MainForm):
@@ -89,6 +90,9 @@ class Ui_MainForm(object):
 
         self.retranslateUi(MainForm)
         QtCore.QMetaObject.connectSlotsByName(MainForm)
+        
+        #Connect menu and functions
+        self.actionMBR.triggered.connect(self.simplifyBuildingMBR)
 
     def retranslateUi(self, MainForm):
         _translate = QtCore.QCoreApplication.translate
@@ -110,6 +114,20 @@ class Ui_MainForm(object):
         self.actionClear_all.setToolTip(_translate("MainForm", "Clear all data"))
 
 
+    def simplifyBuildingMBR(self):
+        #Get input data
+        building = ui.Canvas.getBuilding()
+        
+        #Simplify building
+        a = Algorithms()
+        building_simp = a.createMBR(building)
+
+        #Set results        
+        ui.Canvas.setSimplifBuilding(building_simp)
+        
+        #Repaint
+        self.Canvas.repaint()        
+        
 
 if __name__ == "__main__":
     import sys

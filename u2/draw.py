@@ -9,9 +9,8 @@ class Draw(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-        self.q = QPointF(-100, -100)
-        self.pol = QPolygonF()
-        self.add_vertex = False
+        self.building = QPolygonF()
+        self.building_simp = QPolygonF()
         
         
     def mousePressEvent(self, e: QMouseEvent):
@@ -19,20 +18,12 @@ class Draw(QWidget):
         #Get coordinates of q
         x = e.position().x()
         y = e.position().y()
-        
-        #Add new vertex
-        if self.add_vertex:
                 
-            #Create temporary point
-            p = QPointF(x, y)
-            
-            #Add p to polygon
-            self.pol.append(p)
-            
-        #Move q
-        else:
-            self.q.setX(x)
-            self.q.setY(y)
+        #Create temporary point
+        p = QPointF(x, y)
+        
+        #Add p to polygon
+        self.building.append(p)
             
         #Repaint screen
         self.repaint()
@@ -47,46 +38,36 @@ class Draw(QWidget):
         #Start drawing
         qp.begin(self)
         
-        #Set graphical attributes
+        #Set graphical attributes: building
         qp.setPen(Qt.GlobalColor.black)
         qp.setBrush(Qt.GlobalColor.yellow)
         
-        #Draw polygon
-        qp.drawPolygon(self.pol)
+        #Draw building
+        qp.drawPolygon(self.building)
         
-        #Set graphical attributes
-        qp.setBrush(Qt.GlobalColor.red)
+        #Set graphical attributes: building_simplify
+        qp.setPen(Qt.GlobalColor.gray)
+        qp.setBrush(Qt.GlobalColor.blue)
         
-        #Draw point
-        r = 10
-        qp.drawEllipse(int(self.q.x()-r), int(self.q.y()-r), 2*r, 2*r)
+        #Draw building simplify
+        qp.drawPolygon(self.building_simp)
         
         #End drawing
         qp.end()
         
-        
-    def switchDrawing(self):
-        #Change what will be drawn
-        self.add_vertex = not(self.add_vertex)
-            
-            
-    def getQ(self):
-        #Return analyzed point
-        return self.q
+    
+    def getBuilding(self):
+        # Return analyzed building
+        return self.building
     
     
-    def getPol(self):
-        # Return analyzed polygon
-        return self.pol
+    def setSimplifBuilding(self, building_simp_):
+        self.building_simp = building_simp_
     
     
     def clearData(self):
         #Clear polygon
-        self.pol.clear()
-        
-        #Shift point
-        self.q.setX(-100)
-        self.q.setY(-100)
+        self.building.clear()
         
         #Repaint screen
         self.repaint()
