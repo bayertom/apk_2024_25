@@ -93,6 +93,7 @@ class Ui_MainForm(object):
         
         #Connect menu and functions
         self.actionMBR.triggered.connect(self.simplifyBuildingMBR)
+        self.actionPCA.triggered.connect(self.simplifyBuildingBRPCA)
 
     def retranslateUi(self, MainForm):
         _translate = QtCore.QCoreApplication.translate
@@ -126,7 +127,22 @@ class Ui_MainForm(object):
         ui.Canvas.setSimplifBuilding(building_simp)
         
         #Repaint
-        self.Canvas.repaint()        
+        self.Canvas.repaint() 
+        
+               
+    def simplifyBuildingBRPCA(self):
+        #Get input data
+        building = ui.Canvas.getBuilding()
+        
+        #Simplify building
+        a = Algorithms()
+        building_simp = a.createBRPCA(building)
+
+        #Set results        
+        ui.Canvas.setSimplifBuilding(building_simp)
+        
+        #Repaint
+        self.Canvas.repaint() 
         
 
 if __name__ == "__main__":

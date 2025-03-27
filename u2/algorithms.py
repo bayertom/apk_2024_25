@@ -3,6 +3,7 @@ from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 from math import *
 from numpy import *
+from numpy.linalg import *
 
 class Algorithms:
     def __init__(self):
@@ -143,7 +144,7 @@ class Algorithms:
         
     def resizeRectangle(self,building:QPolygonF, mbr:QPolygonF):
         # Resizing rectangle to match the building area
-        mbr_res = QPolygonF
+        mbr_res = QPolygonF()
                     
         #Compute k
         Ab = self.getArea(building)
@@ -229,8 +230,11 @@ class Algorithms:
                 mmb_min = mmb
                 sigma_min = sigma
                 
+        #Resize rectangle
+        mmb_min_res = self.resizeRectangle(building,mmb_min)
+        
         #Convert min-max box with the minimum area to MBR
-        return self.rotate(mmb_min, sigma_min)
+        return self.rotate(mmb_min_res, sigma_min)
     
     
     def createBRPCA(self, building: QPolygonF):
@@ -248,4 +252,21 @@ class Algorithms:
         #Covariance matrix
         C = cov(A)
         
-            
+        #Singular value decomposition
+        [U, S, V] = svd(C)
+        
+        #Direction of the principal vector
+        sigma = atan2(V[0][1],V[0][0])
+        
+        #Rotate polygon
+        building_r = self.rotate(building, -sigma)
+        
+        #Compute min-max box 
+        mmb, area = self.createMMB(building_r)
+        
+        #Resize rectangle
+        mmb_res = self.resizeRectangle(building,mmb)
+        
+        #Convert min-max box with the minimum area to MBR
+        return self.rotate(mmb_res, sigma)
+    
