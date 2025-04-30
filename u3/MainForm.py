@@ -7,9 +7,17 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-
+from algorithms import *
+from Settings import *
 
 class Ui_MainForm(object):
+    def __init__(self):
+        #Contour line parameters
+        self.zmin = 150
+        self.zmax = 1500
+        self.dz = 10
+        
+    
     def setupUi(self, MainForm):
         MainForm.setObjectName("MainForm")
         MainForm.resize(987, 787)
@@ -132,10 +140,65 @@ class Ui_MainForm(object):
         self.toolBar.addAction(self.actionClear_all)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.actionExit)
+        
+        #Create dialog
+        self.dialog = QtWidgets.QDialog()
+        self.ui_dialog = Ui_Settings()
+        self.ui_dialog.setupUi(self.dialog)
+        
+        #User-defined slots
+        self.actionDTM.triggered.connect(self.dtClick)
+        self.actionContour_lines.triggered.connect(self.contourLinesClick)
+        self.actionParameters.triggered.connect(self.settingsClick)
 
         self.retranslateUi(MainForm)
         QtCore.QMetaObject.connectSlotsByName(MainForm)
-
+        
+        
+    def dtClick(self):
+        #Perform Delaunay Triangulation
+        
+        #Get input data (points)
+        points = ui.Canvas.getPoints()
+    
+        #Run DT
+        a = Algorithms()
+        dt= a.delaunayTriangulation(points) 
+        
+        #Set results (dt)
+        ui.Canvas.setDT(dt)
+        
+        #Repaint
+        self.Canvas.repaint()
+        
+        
+    def contourLinesClick(self):
+         #Compute contour lines
+         
+         #Get dt
+         dt = ui.Canvas.getDT()
+         #Calculate contours
+         a = Algorithms()
+         contour_lines = a.createContourLines(dt, 150, 1500, 10)
+         #Set countours to Draw class
+         ui.Canvas.setContourLines(contour_lines)
+         
+         #Repaint canvas
+         self.Canvas.repaint()
+         
+    
+    def settingsClick(self):
+        #Show settings
+        self.dialog.exec()
+        
+        #Update parameters
+        self.zmin = self.ui_dialog.getZmin()
+        self.zmax = self.ui_dialog.getZmax()
+        self.dz = self.ui_dialog.getdZ()
+        
+        print(self.zmin)
+    
+        
     def retranslateUi(self, MainForm):
         _translate = QtCore.QCoreApplication.translate
         MainForm.setWindowTitle(_translate("MainForm", "DTM analysis"))
