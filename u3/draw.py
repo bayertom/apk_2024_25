@@ -10,7 +10,7 @@ class Draw(QWidget):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
+        self.view_points = True
         self.points = []
         self.dt = []
         self.contour_lines = []
@@ -106,6 +106,9 @@ class Draw(QWidget):
         #Set contour lines 
         self.contour_lines = contour_lines_  
         
+    
+    def setViewPoints(self, view_points_):
+        self.view_points = view_points_
     
     def clearData(self):
         #Clear points and dt

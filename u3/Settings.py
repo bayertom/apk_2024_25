@@ -80,9 +80,6 @@ class Ui_Settings(object):
         self.spinBox_2.setValue(self.zmax)
         self.spinBox_3.setValue(self.dz)
 
-        
-        
-        
 
     def retranslateUi(self, Settings):
         _translate = QtCore.QCoreApplication.translate
@@ -105,7 +102,7 @@ class Ui_Settings(object):
 
     def getdZ(self):
         #Return contour line interval value
-        return self.dZ
+        return self.dz
     
 if __name__ == "__main__":
     import sys

@@ -9,6 +9,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from algorithms import *
 from Settings import *
+from draw import Draw
 
 class Ui_MainForm(object):
     def __init__(self):
@@ -150,6 +151,7 @@ class Ui_MainForm(object):
         self.actionDTM.triggered.connect(self.dtClick)
         self.actionContour_lines.triggered.connect(self.contourLinesClick)
         self.actionParameters.triggered.connect(self.settingsClick)
+        self.actionPoints.changed.connect(self.pointsChanged)
 
         self.retranslateUi(MainForm)
         QtCore.QMetaObject.connectSlotsByName(MainForm)
@@ -177,9 +179,11 @@ class Ui_MainForm(object):
          
          #Get dt
          dt = ui.Canvas.getDT()
+         
          #Calculate contours
          a = Algorithms()
          contour_lines = a.createContourLines(dt, 150, 1500, 10)
+         
          #Set countours to Draw class
          ui.Canvas.setContourLines(contour_lines)
          
@@ -197,6 +201,17 @@ class Ui_MainForm(object):
         self.dz = self.ui_dialog.getdZ()
         
         print(self.zmin)
+        
+        
+    def pointsChanged(self):
+        #View/Hide points
+        view_points = self.actionPoints.isChecked()
+        
+        #Set status
+        ui.Canvas.setViewPoints(view_points)
+        
+        #Repaint
+        self.Canvas.repaint()
     
         
     def retranslateUi(self, MainForm):
@@ -227,7 +242,6 @@ class Ui_MainForm(object):
         self.actionClear_all.setText(_translate("MainForm", "Clear all"))
         self.actionParameters.setText(_translate("MainForm", "Parameters"))
         self.actionParameters.setToolTip(_translate("MainForm", "Setting parameters"))
-from draw import Draw
 
 
 if __name__ == "__main__":
