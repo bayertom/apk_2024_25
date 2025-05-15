@@ -251,7 +251,7 @@ class Algorithms:
                     
         return contour_lines
     
-     def computeSlope(self, p1:QPoint3DF, p2:QPoint3DF, p3:QPoint3DF):
+    def computeSlope(self, p1:QPoint3DF, p2:QPoint3DF, p3:QPoint3DF):
         #Compute triangle slope
         ux, uy, uz = p3.x() - p2.x(), p3.y() - p2.y(), p3.getZ() - p2.getZ()
         vx, vy, vz = p1.x() - p2.x(), p1.y() - p2.y(), p1.getZ() - p2.getZ()
