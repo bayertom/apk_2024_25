@@ -5,6 +5,7 @@ from math import *
 
 from qpoint3df import *
 from edge import *
+from triangle import *
 
 class Algorithms:
     def __init__(self):
@@ -249,6 +250,42 @@ class Algorithms:
                     contour_lines.append(e)
                     
         return contour_lines
+    
+     def computeSlope(self, p1:QPoint3DF, p2:QPoint3DF, p3:QPoint3DF):
+        #Compute triangle slope
+        ux, uy, uz = p3.x() - p2.x(), p3.y() - p2.y(), p3.getZ() - p2.getZ()
+        vx, vy, vz = p1.x() - p2.x(), p1.y() - p2.y(), p1.getZ() - p2.getZ()
+        
+        #Normal vector - Vector (cross) product
+        nx = uy*vz - uz*vy
+        ny = -(ux*vz - uz*vx)
+        nz = ux*vy - uy*vx
+        
+        #Norm
+        n = sqrt(nx**2 + ny**2 + nz**2)
+        
+        return acos(nz/n)
+        
+    
+    def convertDTToTriangles(dt: list[Edge]) -> list[Triangle]:
+        #Converts list of edges to list of triangles
+        
+
+        triangles_list = []
+        #Browse all triangles
+        for i in range(0, len(dt), 3):
+            #Vertices of triangle
+            p1 = dt[i].getStart()
+            p2 = dt[i+1].getStart()
+            p3 = dt[i+2].getStart()
+        
+            #Create triangle
+            triangle = Triangle(p1, p2, p3, 0, 0)
+            
+            #Add triangle to the list
+            triangles_list.append(triangle)
+      
+        return triangles
     
     
                
