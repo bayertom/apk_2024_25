@@ -251,6 +251,7 @@ class Algorithms:
                     
         return contour_lines
     
+    
     def computeSlope(self, p1:QPoint3DF, p2:QPoint3DF, p3:QPoint3DF):
         #Compute triangle slope
         ux, uy, uz = p3.x() - p2.x(), p3.y() - p2.y(), p3.getZ() - p2.getZ()
@@ -267,11 +268,9 @@ class Algorithms:
         return acos(nz/n)
         
     
-    def convertDTToTriangles(dt: list[Edge]) -> list[Triangle]:
+    def convertDTToTriangles(self, dt: list[Edge], triangles: list[Triangle]):
         #Converts list of edges to list of triangles
-        
-
-        triangles_list = []
+         
         #Browse all triangles
         for i in range(0, len(dt), 3):
             #Vertices of triangle
@@ -283,11 +282,22 @@ class Algorithms:
             triangle = Triangle(p1, p2, p3, 0, 0)
             
             #Add triangle to the list
-            triangles_list.append(triangle)
-      
-        return triangles
+            triangles.append(triangle)
+            
     
+    def analyzeDTMSlope(self, dt, triangles):
+        #Compute slope of all triangles
+        if len(triangles) == 0:
+            self.convertDTToTriangles(dt, triangles)
+            
+        #Browse all triangles
+        for t in triangles:
+            #Get vertices
+            p1, p2, p3 = t.getVertices()
+            
+            #Compute slope
+            slope = self.computeSlope(p1, p2, p3)
+            
+            #Set slope
+            t.setSlope(slope)
     
-               
-                    
-                     

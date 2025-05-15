@@ -66,6 +66,12 @@ class Ui_MainForm(object):
         self.actionDT = QtGui.QAction(parent=MainForm)
         self.actionDT.setCheckable(True)
         self.actionDT.setObjectName("actionDT")
+        
+        self.actionContourLines= QtGui.QAction(parent=MainForm)
+        self.actionContourLines.setCheckable(True)
+        self.actionContourLines.setObjectName("actionContourLines")
+        
+        
         self.actionSlope = QtGui.QAction(parent=MainForm)
         self.actionSlope.setCheckable(True)
         self.actionSlope.setObjectName("actionSlope")
@@ -111,6 +117,7 @@ class Ui_MainForm(object):
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionExit)
         self.menuView.addAction(self.actionPoints)
+        self.menuView.addAction(self.actionContourLines)
         self.menuView.addAction(self.actionDT)
         self.menuView.addAction(self.actionSlope)
         self.menuView.addAction(self.actionAspect)
@@ -142,6 +149,13 @@ class Ui_MainForm(object):
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.actionExit)
         
+        #Check all items
+        self.actionPoints.setChecked(True)
+        self.actionDT.setChecked(True)
+        self.actionContourLines.setChecked(True)
+        self.actionSlope.setChecked(True)
+        self.actionAspect.setChecked(True)
+        
         #Create dialog
         self.dialog = QtWidgets.QDialog()
         self.ui_dialog = Ui_Settings()
@@ -151,7 +165,12 @@ class Ui_MainForm(object):
         self.actionDTM.triggered.connect(self.dtClick)
         self.actionContour_lines.triggered.connect(self.contourLinesClick)
         self.actionParameters.triggered.connect(self.settingsClick)
+        self.actionAnalyzeSlope.triggered.connect(self.analyzeSlopeClick)
+        
         self.actionPoints.changed.connect(self.pointsChanged)
+        self.actionDT.changed.connect(self.DTChanged)
+        self.actionContourLines.changed.connect(self.contourLinesChanged)
+        self.actionSlope.changed.connect(self.slopeChanged)
 
         self.retranslateUi(MainForm)
         QtCore.QMetaObject.connectSlotsByName(MainForm)
@@ -182,7 +201,7 @@ class Ui_MainForm(object):
          
          #Calculate contours
          a = Algorithms()
-         contour_lines = a.createContourLines(dt, 150, 1500, 10)
+         contour_lines = a.createContourLines(dt, self.zmin, self.zmax, self.dz)
          
          #Set countours to Draw class
          ui.Canvas.setContourLines(contour_lines)
@@ -202,6 +221,24 @@ class Ui_MainForm(object):
         
         print(self.zmin)
         
+    
+    def analyzeSlopeClick(self):
+        #Analyze slope
+        
+        #Get DT
+        dt = ui.Canvas.getDT()
+        
+        #Get triangles
+        triangles = ui.Canvas.getTriangles()
+        #Analyze slope
+        a = Algorithms()
+        a.analyzeDTMSlope(dt, triangles)
+        
+        #Set results
+        ui.Canvas.setTriangles(triangles)
+        
+        #Repaint
+        self.Canvas.repaint()
         
     def pointsChanged(self):
         #View/Hide points
@@ -212,7 +249,38 @@ class Ui_MainForm(object):
         
         #Repaint
         self.Canvas.repaint()
-    
+        
+        
+    def DTChanged(self):
+        #View/Hide DT
+        view_DT = self.actionDT.isChecked()
+        
+        #Set status
+        ui.Canvas.setViewDT(view_DT)
+        
+        #Repaint
+        self.Canvas.repaint()
+        
+    def contourLinesChanged(self):
+        #View/Hide Contour lines
+        view_contour_lines = self.actionContourLines.isChecked()
+        
+        #Set status
+        ui.Canvas.setViewContourLines(view_contour_lines)
+        
+        #Repaint
+        self.Canvas.repaint()
+        
+        
+    def slopeChanged(self):
+        #View/Hide slope
+        view_slope = self.actionSlope.isChecked()
+        
+        #Set status
+        ui.Canvas.setViewDT(view_slope)
+        
+        #Repaint
+        self.Canvas.repaint()    
         
     def retranslateUi(self, MainForm):
         _translate = QtCore.QCoreApplication.translate
